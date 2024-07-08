@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Player Form</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>Player Form</h1>
+  <form id="player-form" action="/player" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="dateOfBirth">Date of Birth:</label>
+    <input type="date" id="dateOfBirth" name="dateOfBirth"><br><br>
+    <label for="photoUrl">Photo URL:</label>
+    <input type="text" id="photoUrl" name="photoUrl"><br><br>
+    <label for="birthPlace">Birth Place:</label>
+    <input type="text" id="birthPlace" name="birthPlace"><br><br>
+    <label for="career">Career:</label>
+    <textarea id="career" name="career" rows="5" cols="30"></textarea><br><br>
+    <label for="noOfMatches">No. of Matches:</label>
+    <input type="number" id="noOfMatches" name="noOfMatches"><br><br>
+    <label for="score">Score:</label>
+    <input type="number" id="score" name="score"><br><br>
+    <label for="fifties">Fifties:</label>
+    <input type="number" id="fifties" name="fifties"><br><br>
+    <labelfor="centuries">Centuries:</label>
+    <input type="number" id="centuries" name="centuries"><br><br>
+    <label for="wickets">Wickets:</label>
+    <input type="number" id="wickets" name="wickets"><br><br>
+    <label for="averages">Averages:</label>
+    <input type="number" id="averages" name="averages"><br><br>
+    <input type="submit"value="Submit">
+  </form>
+
+  <div id="player-data"></div>
+
+  <script>
+   const form = document.getElementById('player-form');
+    const playerDataDiv = document.getElementById('player-data');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = {
+        name: document.getElementById('name').value,
+        dateOfBirth: document.getElementById('dateOfBirth').value,
+        photoUrl: document.getElementById('photoUrl').value,
+        birthPlace: document.getElementById('birthPlace').value,
+        career: document.getElementById('career').value,
+        noOfMatches: document.getElementById('noOfMatches').value,
+        score: document.getElementById('score').value,
+        fifties: document.getElementById('fifties').value,
+        centuries: document.getElementById('centuries').value,
+        wickets: document.getElementById('wickets').value,
+        averages: document.getElementById('averages').value
+      };
+      axios.post('/player', formData)
+        .then((response) => {
+          const playerId = response.data.id;
+          const playerData = response.data;
+          window.location.href = `/player/${playerId}`;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  </script>
+</body>
+</html> 

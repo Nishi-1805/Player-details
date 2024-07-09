@@ -2,49 +2,38 @@
 <html>
 <head>
   <title>Player Details</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
 </head>
 <body>
-  <h1 id="player-name"></h1>
-  <p id="date-of-birth"></p>
-  <p id="photo-url"></p>
-  <p id="birth-place"></p>
-  <p id="career"></p>
-  <p id="no-of-matches"></p>
-  <p id="score"></p>
-  <p id="fifties"></p>
-  <p id="centuries"></p>
-  <p id="wickets"></p>
-  <p id="averages"></p>
-  <a id="edit-link" href="/edit/{{ player.id }}">Edit</a>
+  <h1>Player Details</h1>
+  <ul id="player-details">
+  </ul>
+  <button id="edit-button">Edit</button>
 
   <script>
-    const playerId = window.location.pathname.split('/').pop();
-    axios.get(`/player/${playerId}`)
-     .then(response => {
-        debugger
-        const player = response.data;
-        document.getElementById('player-name').textContent = player.name;
-        document.getElementById('date-of-birth').textContent = player.dateOfBirth;
-        document.getElementById('photo-url').textContent = player.photoUrl;
-        document.getElementById('birth-place').textContent = player.birthPlace;
-        document.getElementById('career').textContent = player.career;
-        document.getElementById('no-of-matches').textContent = player.noOfMatches;
-        document.getElementById('score').textContent = player.score;
-        document.getElementById('fifties').textContent = player.fifties;
-        document.getElementById('centuries').textContent = player.centuries;
-        document.getElementById('wickets').textContent = player.wickets;
-        document.getElementById('averages').textContent = player.averages;
+    const playerId = window.location.pathname.split('/')[2];
+    fetch(`/players/${playerId}/data`)
+      .then(response => response.json())
+      .then(player => {
+        const playerDetails = document.getElementById('player-details');
+        playerDetails.innerHTML = `
+          <li>Name: ${player.name}</li>
+          <li>Date of Birth: ${player.dateOfBirth}</li>
+          <li>Photo URL: ${player.photoUrl}</li>
+          <li>Birth Place: ${player.birthPlace}</li>
+          <li>Career: ${player.career}</li>
+          <li>No. of Matches: ${player.numberOfMatches}</li>
+          <li>Score: ${player.score}</li>
+          <li>Fifties: ${player.fifties}</li>
+          <li>Centuries: ${player.centuries}</li>
+          <li>Wickets: ${player.wickets}</li>
+          <li>Averages: ${player.averages}</li>
+        `;
+        const editButton = document.getElementById('edit-button');
+        editButton.addEventListener('click', () => {
+          window.location.href = `/players/${playerId}/player`;
+        });
       })
-     .catch(error => {
-        if (error.response.status === 404) {
-          console.error('Player not found');
-          // Handle 404 error, e.g., display an error message
-        } else {
-          console.error(error);
-          // Handle other errors, e.g., display a generic error message
-        }
-      });
+      .catch(error => console.error(error));
   </script>
 </body>
 </html>

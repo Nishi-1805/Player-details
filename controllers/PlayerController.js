@@ -1,49 +1,50 @@
-const playerModel = require('../models/playerModel');
+const Player = require('../models/playerModel');
+const path = require('path');
 
-exports.getIndex = (req, res) => {
-  res.sendFile(__dirname + '/../views/player.html');
-};
+exports.createPlayer = async (req, res) => {
+  try {
+    const { name, dateOfBirth, photoUrl, birthPlace, career, numberOfMatches, score, fifties, centuries, wickets, averages } = req.body;
 
-exports.submitForm = (req, res) => {
-  const playerData = req.body;
-  playerModel.create(playerData)
-  .then(player => {
-    console.log(`Player created with ID: ${player.id}`);
-    res.redirect(`/player/${player.id}`);
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).send('Error submitting form');
-  });
-};
-
-
-exports.getEditPage = (req, res) => {
-  const playerId = req.params.id;
-  playerModel.findByPk(playerId)
-   .then(player => {
-        res.render('../views/player', { player: player });
-    })
-   .catch(err => {
-      console.error(err);
-      res.status(404).send('Player not found');
-    });
-};
-
-exports.updatePlayer = (req, res) => {
-  const playerId = req.params.id;
-  const updatedData = req.body;
-  playerModel.update(updatedData, {
-    where: {
-      id: playerId
+    // Basic validation
+    if (!name || !dateOfBirth || !photoUrl || !birthPlace || !career || !numberOfMatches || !score || !fifties || !centuries || !wickets || !averages) {
+      return res.status(400).json({ error: 'Invalid request' });
     }
-  })
-  .then(() => {
-    console.log(`Player updated with ID: ${playerId}`);
-    res.redirect(`/player/${playerId}`);
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).send('Error updating player');
-  });
+
+    const player = await Player.create({
+      name,
+      dateOfBirth,
+      photoUrl,
+      birthPlace,
+      career,
+      numberOfMatches,
+      score,
+      fifties,
+      centuries,
+      wickets,
+      averages,
+    });
+
+    res.json({ id: player.id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to create player' });
+  }
+};
+exports.getPlayer = async (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/playerdetails.html'));
+};
+
+exports.getPlayerData = async (req, res) => {
+  const playerId = req.params.id;
+  try {
+    const player = await Player.findByPk(playerId);
+    if (!player) {
+      res.status(404).json({ error: 'Player not found' });
+    } else {
+      res.json(player);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to retrieve player' });
+  }
 };

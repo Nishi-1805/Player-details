@@ -1,4 +1,4 @@
-const {DataTypes, Sequelize } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../util/database');
 
 const playerModel = sequelize.define('Player', {
@@ -8,37 +8,48 @@ const playerModel = sequelize.define('Player', {
     autoIncrement: true
   },
   name: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   },
   dateOfBirth: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    allowNull: false
   },
   photoUrl: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   },
   birthPlace: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   },
   career: {
-    type: Sequelize.STRING(1000)
+    type: Sequelize.TEXT,
+    allowNull: false
   },
-  noOfMatches: {
-    type: Sequelize.INTEGER
+  numberOfMatches: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   score: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   fifties: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   centuries: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   wickets: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   averages: {
-    type: Sequelize.INTEGER
+    type: Sequelize.DECIMAL,
+    allowNull: false
   }
 });
 

@@ -6,37 +6,36 @@
 </head>
 <body>
   <h1>Player Form</h1>
-  <form id="player-form" action="/player" method="post">
+  <form id="player-form" method="post">
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name"><br><br>
+    <input type="text" id="name" name="name" required><br><br>
     <label for="dateOfBirth">Date of Birth:</label>
-    <input type="date" id="dateOfBirth" name="dateOfBirth"><br><br>
+    <input type="date" id="dateOfBirth" name="dateOfBirth" required><br><br>
     <label for="photoUrl">Photo URL:</label>
-    <input type="text" id="photoUrl" name="photoUrl"><br><br>
+    <input type="text" id="photoUrl" name="photoUrl" required><br><br>
     <label for="birthPlace">Birth Place:</label>
-    <input type="text" id="birthPlace" name="birthPlace"><br><br>
+    <input type="text" id="birthPlace" name="birthPlace" required><br><br>
     <label for="career">Career:</label>
-    <textarea id="career" name="career" rows="5" cols="30"></textarea><br><br>
-    <label for="noOfMatches">No. of Matches:</label>
-    <input type="number" id="noOfMatches" name="noOfMatches"><br><br>
+    <textarea id="career" name="career" rows="5" cols="30" required></textarea><br><br>
+    <label for="numberOfMatches">No. of Matches:</label>
+    <input type="number" id="numberOfMatches" name="numberOfMatches" required><br><br>
     <label for="score">Score:</label>
-    <input type="number" id="score" name="score"><br><br>
+    <input type="number" id="score" name="score" required><br><br>
     <label for="fifties">Fifties:</label>
-    <input type="number" id="fifties" name="fifties"><br><br>
-    <labelfor="centuries">Centuries:</label>
-    <input type="number" id="centuries" name="centuries"><br><br>
+    <input type="number" id="fifties" name="fifties" required><br><br>
+    <label for="centuries">Centuries:</label>
+    <input type="number" id="centuries" name="centuries" required><br><br>
     <label for="wickets">Wickets:</label>
-    <input type="number" id="wickets" name="wickets"><br><br>
+    <input type="number" id="wickets" name="wickets" required><br><br>
     <label for="averages">Averages:</label>
-    <input type="number" id="averages" name="averages"><br><br>
-    <input type="submit"value="Submit">
+    <input type="number" id="averages" name="averages" required><br><br>
+    <button type="submit">Submit</button>
   </form>
 
   <div id="player-data"></div>
 
   <script>
-   const form = document.getElementById('player-form');
-    const playerDataDiv = document.getElementById('player-data');
+    const form = document.getElementById('player-form');
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -46,23 +45,29 @@
         photoUrl: document.getElementById('photoUrl').value,
         birthPlace: document.getElementById('birthPlace').value,
         career: document.getElementById('career').value,
-        noOfMatches: document.getElementById('noOfMatches').value,
-        score: document.getElementById('score').value,
-        fifties: document.getElementById('fifties').value,
-        centuries: document.getElementById('centuries').value,
-        wickets: document.getElementById('wickets').value,
-        averages: document.getElementById('averages').value
+        numberOfMatches: parseInt(document.getElementById('numberOfMatches').value),
+        score: parseInt(document.getElementById('score').value),
+        fifties: parseInt(document.getElementById('fifties').value),
+        centuries: parseInt(document.getElementById('centuries').value),
+        wickets: parseInt(document.getElementById('wickets').value),
+        averages: parseFloat(document.getElementById('averages').value)
       };
-      axios.post('/player', formData)
-        .then((response) => {
+
+      axios.post('/players', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => {
           const playerId = response.data.id;
           const playerData = response.data;
-          window.location.href = `/player/${playerId}`;
+          window.location.href = `/players/${playerId}`;
         })
-        .catch((error) => {
+      .catch((error) => {
           console.error(error);
+          alert('Error submitting form:', error.message);
         });
     });
   </script>
 </body>
-</html> 
+</html>

@@ -3,10 +3,14 @@
 <head>
   <title>Player Form</title>
   <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="/css/player.css">
 </head>
 <body>
-  <h1>Player Form</h1>
+  <input type="text" id="search-input" placeholder="Search by name">
+  <button id="search-button">Search</button>
+
   <form id="player-form" method="post">
+    <h1>Player Form</h1>
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required><br><br>
     <label for="dateOfBirth">Date of Birth:</label>
@@ -31,12 +35,89 @@
     <input type="number" id="averages" name="averages" required><br><br>
     <button type="submit">Submit</button>
   </form>
-
-  <div id="player-data"></div>
-
   <script>
     const form = document.getElementById('player-form');
+  
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerId = urlParams.get('playerId');
+    const playerData = JSON.parse(urlParams.get('playerData'));
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+  
+    console.log(`Received player data:`, playerData);
 
+    searchInput.addEventListener('keyup', async (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const playerName = searchInput.value.trim();
+    if (playerName) {
+      try {
+        const response = await axios.get('/players/search', {
+          params: {
+            name: playerName
+          },
+          headers: {
+            Accept: 'application/json'
+          }
+        });
+        if (response.data.playerId) {
+          window.location.href = `/players/${response.data.playerId}`;
+        } else {
+          alert(response.data.error);
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error searching for player');
+      }
+    }
+  }
+});
+
+searchButton.addEventListener('click', async (e) => {
+  e.preventDefault();
+  const playerName = searchInput.value.trim();
+  if (playerName) {
+    try {
+      const response = await axios.get('/players/search', {
+        params: {
+          name: playerName
+        },
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+      console.log('Response:', response); 
+      const playerId = response.data.playerId;
+      if (playerId) {
+        window.location.href = `/players/${playerId}`;
+      } else {
+        alert('Player not found');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error searching for player');
+    }
+  }
+});
+
+    if (!playerData) {
+      console.error('No player data received');
+  console.log('Form will not be pre-populated');
+} else {
+    // Pre-populate form fields with player data
+    document.getElementById('name').value = playerData.name;
+    document.getElementById('dateOfBirth').value = playerData.dateOfBirth;
+    document.getElementById('photoUrl').value = playerData.photoUrl;
+    document.getElementById('birthPlace').value = playerData.birthPlace;
+    document.getElementById('career').value = playerData.career;
+    document.getElementById('numberOfMatches').value = playerData.numberOfMatches;
+    document.getElementById('score').value = playerData.score;
+    document.getElementById('fifties').value = playerData.fifties;
+    document.getElementById('centuries').value = playerData.centuries;
+    document.getElementById('wickets').value = playerData.wickets;
+    document.getElementById('averages').value = playerData.averages;
+}
+    // Form submitting code
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = {
@@ -50,24 +131,51 @@
         fifties: parseInt(document.getElementById('fifties').value),
         centuries: parseInt(document.getElementById('centuries').value),
         wickets: parseInt(document.getElementById('wickets').value),
-        averages: parseFloat(document.getElementById('averages').value)
+        averages: parseFloat(document.getElementById('averages').value),
+        playerId: playerId
       };
-
-      axios.post('/players', formData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => {
-          const playerId = response.data.id;
-          const playerData = response.data;
-          window.location.href = `/players/${playerId}`;
-        })
-      .catch((error) => {
-          console.error(error);
-          alert('Error submitting form:', error.message);
-        });
+  
+      console.log(`Submitting form data:`, formData);
+  
+      if (playerId) {
+    // Update existing player
+    fetch(`/players/${playerId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+   .then((response) => response.json())
+   .then((data) => {
+      console.log(`Form submitted successfully:`, data);
+      window.location.href = `/players/${playerId}`;
+    })
+   .catch((error) => {
+      console.error(`Error submitting form:`, error);
+      alert('Error submitting form:', error.message);
     });
+  } else {
+    // Create new player
+    fetch('/players', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+   .then((response) => response.json())
+   .then((data) => {
+      console.log(`Form submitted successfully:`, data);
+      window.location.href = `/players/${data.id}`;
+    })
+   .catch((error) => {
+      console.error(`Error submitting form:`, error);
+      alert('Error submitting form:', error.message);
+    });
+  }
+    });
+  
   </script>
 </body>
 </html>

@@ -11,9 +11,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/player.html');
 });
+
+console.log('Loading player routes...');
 app.use('/players', routes);
 
-sequelize.sync() // Use { force: true } in development mode
+sequelize.sync()
 .then(() => {
     console.log('Database schema synchronized');
     app.listen(3000, () => {

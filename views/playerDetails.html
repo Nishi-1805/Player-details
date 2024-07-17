@@ -2,11 +2,18 @@
 <html>
 <head>
   <title>Player Details</title>
+  <link rel="stylesheet" href="/css/playerdetails.css">
 </head>
 <body>
   <h1>Player Details</h1>
-  <ul id="player-details">
-  </ul>
+  <div class="player-details-container">
+    <div class="player-info">
+      <ul id="player-info-list">
+      </ul>
+    </div>
+    <div class="career-description" id="career-description">
+    </div>
+  </div>
   <button id="edit-button">Edit</button>
 
   <script>
@@ -14,26 +21,38 @@
     fetch(`/players/${playerId}/data`)
       .then(response => response.json())
       .then(player => {
-        const playerDetails = document.getElementById('player-details');
-        playerDetails.innerHTML = `
-          <li>Name: ${player.name}</li>
-          <li>Date of Birth: ${player.dateOfBirth}</li>
-          <li>Photo URL: ${player.photoUrl}</li>
-          <li>Birth Place: ${player.birthPlace}</li>
-          <li>Career: ${player.career}</li>
-          <li>No. of Matches: ${player.numberOfMatches}</li>
-          <li>Score: ${player.score}</li>
-          <li>Fifties: ${player.fifties}</li>
-          <li>Centuries: ${player.centuries}</li>
-          <li>Wickets: ${player.wickets}</li>
-          <li>Averages: ${player.averages}</li>
+        const playerInfoList = document.getElementById('player-info-list');
+        const careerDescription = document.getElementById('career-description');
+
+        const dateOfBirth = new Date(player.dateOfBirth);
+    const formattedDate = `${dateOfBirth.getMonth() + 1}/${dateOfBirth.getDate()}/${dateOfBirth.getFullYear()}`;
+
+        playerInfoList.innerHTML = `
+          <li><img src="${player.photoUrl}" alt="Player Photo" /></li>
+          <li><strong>Name:</strong> ${player.name}</li>
+       <li><strong>Date of Birth:</strong> ${formattedDate}</li>
+          <li><strong>Birth Place:</strong> ${player.birthPlace}</li>
+          <li><strong>No. of Matches:</strong> ${player.numberOfMatches}</li>
+          <li><strong>Score:</strong> ${player.score}</li>
+          <li><strong>Fifties:</strong> ${player.fifties}</li>
+          <li><strong>Centuries:</strong> ${player.centuries}</li>
+          <li><strong>Wickets:</strong> ${player.wickets}</li>
+          <li><strong>Averages:</strong> ${player.averages}</li>
         `;
+
+        careerDescription.innerHTML = `
+          <h3>Career Description</h3>
+          <p>${player.career}</p>
+        `;
+
         const editButton = document.getElementById('edit-button');
         editButton.addEventListener('click', () => {
-          window.location.href = `/players/${playerId}/player`;
+          const playerId = window.location.pathname.split('/')[2];
+          const playerData = JSON.stringify(player);
+          window.location.href = `/players/${playerId}/edit?playerId=${playerId}&playerData=${playerData}`;
         });
       })
       .catch(error => console.error(error));
-  </script>
-</body>
+      </script> 
+    </body>
 </html>

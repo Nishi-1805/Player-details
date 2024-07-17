@@ -81,18 +81,10 @@ searchButton.addEventListener('click', async (e) => {
       const response = await axios.get('/players/search', {
         params: {
           name: playerName
-        },
-        headers: {
-          Accept: 'application/json'
         }
       });
-      console.log('Response:', response); 
-      const playerId = response.data.playerId;
-      if (playerId) {
-        window.location.href = `/players/${playerId}`;
-      } else {
-        alert('Player not found');
-      }
+      const playerId = response.data.id; 
+      window.location.href = `/players/${playerId}`; 
     } catch (error) {
       console.error(error);
       alert('Error searching for player');

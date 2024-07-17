@@ -114,7 +114,7 @@ exports.searchPlayer = async (req, res) => {
     console.log(`Player found: ${player}`);
     if (player) {
       console.log(`Redirecting to /players/${player.id}`);
-      res.redirect(`/players/${player.id}`); // Redirect to player details page
+      res.redirect(`/players/${player.id}`);
     } else {
       res.status(404);
       res.json({ error: 'Player not found' });

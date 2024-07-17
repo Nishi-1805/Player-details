@@ -1,0 +1,93 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://t3.ftcdn.net/jpg/02/70/73/76/360_F_270737695_IaAkTD2p7vhmI5YNuYAGYlk2pGVwJUXS.jpg'); 
+    background-size: cover;
+    background-position: center;
+  }
+  
+  h1 {
+    text-align: center;
+    margin: 20px auto;
+  }
+  
+  /* Form styles */
+  #player-form {
+    width: 50%; 
+    margin: 40px auto; 
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; 
+  }
+  
+  #player-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  #player-form input, #player-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+  }
+  
+  #player-form button[type="submit"] {
+    background-color: #4CAF50; 
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block; 
+    margin: 0 auto;
+  }
+  
+  #player-form button[type="submit"]:hover {
+    background-color: #3e8e41; 
+  }
+  
+  /* Add a box around the entire form */
+  #player-form {
+    box-sizing: border-box; 
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+   
+  /* Search bar styles */
+  #search-input {
+    width: 200px; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #search-btn {
+    background-color: #4CAF50; 
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #search-btn:hover {
+    background-color: #3e8e41; 
+  }
+  
+  #search-input, #search-btn {
+    position: relative; 
+    top: 0;
+    right: 0;
+    margin: 10px;
+  }
+  
+ 

@@ -101,7 +101,7 @@ exports.updatePlayer = async (req, res) => {
 };
 
 exports.searchPlayer = async (req, res) => {
-  console.log('Search player function called'); 
+  console.log('Search player function called');
   const searchQuery = req.query.name;
   try {
     const player = await Player.findOne({
@@ -113,8 +113,7 @@ exports.searchPlayer = async (req, res) => {
     });
     console.log(`Player found: ${player}`);
     if (player) {
-      console.log(`Redirecting to /players/${player.id}`);
-      res.redirect(`/players/${player.id}`);
+      res.json({ id: player.id });
     } else {
       res.status(404);
       res.json({ error: 'Player not found' });

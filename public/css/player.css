@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('https://t3.ftcdn.net/jpg/02/70/73/76/360_F_270737695_IaAkTD2p7vhmI5YNuYAGYlk2pGVwJUXS.jpg'); 
+    background-image: url('https://t3.ftcdn.net/jpg/02/70/73/76/360_F_270737695_IaAkTD2p7vhmI5YNuYAGYlk2pGVwJUXS.jpg'); /* replace with your background image */
     background-size: cover;
     background-position: center;
   }
@@ -11,9 +11,9 @@ body {
     text-align: center;
     margin: 20px auto;
   }
-
+  
   #player-form {
-    width: 50%; 
+    width: 50%;
     margin: 40px auto; 
     padding: 20px;
     border: 1px solid #ddd;
@@ -49,7 +49,7 @@ body {
   #player-form button[type="submit"]:hover {
     background-color: #3e8e41; 
   }
-
+  
   #player-form {
     box-sizing: border-box; 
     border: 1px solid #ddd;
@@ -64,24 +64,29 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    height:30px;
   }
   
-  #search-btn {
+  #search-button {
     background-color: #4CAF50; 
-    color: #fff;
-    padding: 10px 20px;
+    color: white;
+    padding:10px 20px ;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    line-height: 30px;
+    text-align: center;
+   
   }
   
-  #search-btn:hover {
-    background-color: #3e8e41; 
+  #search-button:hover {
+    background-color: #18b2dd; 
   }
   
-  #search-input, #search-btn {
+  #search-input, #search-button {
     position: relative; 
     top: 0;
     right: 0;
     margin: 10px;
+    padding-top: 3px;
   }

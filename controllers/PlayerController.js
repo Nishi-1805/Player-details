@@ -6,7 +6,6 @@ exports.createPlayer = async (req, res) => {
   try {
     const { name, dateOfBirth, photoUrl, birthPlace, career, numberOfMatches, score, fifties, centuries, wickets, averages } = req.body;
 
-    // Basic validation
     if (!name || !dateOfBirth || !photoUrl || !birthPlace || !career || !numberOfMatches || !score || !fifties || !centuries || !wickets || !averages) {
       return res.status(400).json({ error: 'Invalid request' });
     }
@@ -50,7 +49,6 @@ exports.getPlayerData = async (req, res) => {
   }
 };
 
-// In your server-side code
 exports.getEditPlayer = async (req, res) => {
   const playerId = req.params.id;
   try {
@@ -79,10 +77,10 @@ exports.updatePlayer = async (req, res) => {
       res.status(404).json({ error: 'Player not found' });
     } else {
       player.name = updatedData.name;
-      player.dateOfBirth = new Date(updatedData.dateOfBirth); // parse date string to timestamp
-      player.photoUrl = updatedData.photoUrl; // update photo URL
+      player.dateOfBirth = new Date(updatedData.dateOfBirth); 
+      player.photoUrl = updatedData.photoUrl; 
       player.birthPlace = updatedData.birthPlace;
-      player.career = updatedData.career; // update career information
+      player.career = updatedData.career; 
       player.numberOfMatches = updatedData.numberOfMatches;
       player.score = updatedData.score;
       player.fifties = updatedData.fifties;
